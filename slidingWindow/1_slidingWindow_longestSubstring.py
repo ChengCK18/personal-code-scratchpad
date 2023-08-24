@@ -1,4 +1,17 @@
 class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        unique = set()
+        left_ptr = 0
+        max_seq = 0
+
+        for right_ptr in range(len(s)):
+            while s[right_ptr] in unique:
+                unique.remove(s[left_ptr])
+                left_ptr+=1
+            unique.add(s[right_ptr])
+            max_seq = max(max_seq,len(unique))
+
+        return max_seq
 
     # def lengthOfLongestSubstring(self, s: str) -> int: # brute force
     #     left_ptr = 0
