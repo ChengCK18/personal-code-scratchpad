@@ -105,13 +105,43 @@ class Codec:
 
 
 
+##############  SOLUTION USING DFS ################
+
+# class Codec:
+
+#     def serialize(self, root):
+#         res = []
+#         def dfs(node):
+#             if not node:
+#                 res.append("N")
+#             res.append(str(node.val))
+#             dfs(node.left)
+#             dfs(node.right)
+#         dfs(root)
+#         return ",".join(res)
+    
+
+#     def deserialize(self, data):
+#         vals = data.split(',')
+#         self.index = 0
+
+#         def dfs():
+#             if(vals[self.index]=="N"):
+#                 self.index +=1
+#                 return None
+#             node = TreeNode(int(vals[self.index]))
+#             self.index+=1
+#             node.left = dfs()
+#             node.right = dfs()
+#             return node
+
+
+#         return dfs()
 
 
 
 
-
-
-# OLD SOLUTION, deserialize FAIL: [4,-7,-3,null,null,-9,-3,9,-7,-4,null,6,null,-6,-6,null,null,0,6,5,null,9,null,null,-1,-4,null,null,null,-2]
+############## OLD SOLUTION, deserialize FAIL: [4,-7,-3,null,null,-9,-3,9,-7,-4,null,6,null,-6,-6,null,null,0,6,5,null,9,null,null,-1,-4,null,null,null,-2]
 
 # # Definition for a binary tree node.
 # # class TreeNode(object):
