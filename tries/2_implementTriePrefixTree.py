@@ -1,7 +1,7 @@
 ########## 
 # Initial attempt, success 
 # but can be improved to use dict instead of list to make lookup much faster
-# now algo is somewhat slow as it needs to traverse array for compare child node
+# now algo is somewhat slow as it needs to traverse array for compare child
 
 # from dataclasses import dataclass
 # from typing import List
@@ -65,21 +65,19 @@
 #         for rootNode in self.root:
 #             if(rootNode.char == word[0]):
 #                 node = rootNode
-#         if(node is None): # not even matching any root node
+#         if node is None: #  no common root
 #             return False
-#         if(node is not None and len(word)==1 and node.isWord): # word len >=1 constraint
-#             return True
-        
-#         for i in range(1,len(word)):
+
+#         for char in word[1:]:
 #             linkFound = False
-#             for link in node.links: # check against all current node's links 
-#                 if(link.char == word[i]):
+#             for link in node.links:
+#                 if(char==link.char):
 #                     node = link
 #                     linkFound = True
+#                     break
 #             if(not linkFound):
-#                 return False # a node without any matching links to the word[i]'s char
-
-#         if (node.isWord): #ended with last node that is a valid word
+#                 return False
+#         if(node.isWord):
 #             return True
 #         else:
 #             return False
