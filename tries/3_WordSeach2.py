@@ -1,4 +1,69 @@
+class TrieNode:
+    def __init__(self):
+        self.children = {}
+        self.isWord = False
 
+
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+
+    def addWord(self,word:str) -> None:
+        curr = self.root
+        for char in word:
+            if(char not in curr.children):
+                curr.children[char] = TrieNode()
+            
+            curr = curr.children[char]
+        curr.isWord = True
+
+    
+
+
+class Solution:
+    def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
+        trieStructure = Trie()
+        for word in words:
+            trieStructure.addWord(word)
+
+        
+        resultStrings = set()
+        def dfs(r,c,curr,word):
+            if(curr.isWord):
+                resultStrings.add(word)
+                curr.isWord = False
+            
+            if(r>=ROWS or c>=COLS or 
+            r<0 or c<0 or 
+            board[r][c] not in curr.children or
+            (r,c) in visited):
+                return 
+            
+
+            
+            visited.add((r,c))
+            curr = curr.children[board[r][c]]
+            word += board[r][c]
+           
+            dfs(r+1, c, curr,word) 
+            dfs(r, c+1, curr,word) 
+            dfs(r-1, c, curr,word) 
+            dfs(r, c-1, curr,word)
+            # print(r,c)
+
+            visited.remove((r,c))
+           
+
+
+        curr = trieStructure.root
+        ROWS,COLS = len(board) , len(board[0])
+        visited = set()
+
+        for r in range (ROWS):
+            for c in range(COLS):
+                    result = dfs(r,c,curr,"")
+        
+        return resultStrings
 
 
 #Solution: TIME LIMIT EXCEEDED. Need to rely on Trie structure
