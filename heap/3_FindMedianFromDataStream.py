@@ -1,75 +1,114 @@
-# SOLUTION TLE 17/21 , heap solution but not an optimized solution, to refer to solution
+# using built in heap push and pop T_T, self coded heapify fn not optimized, solution accepted, no TLE
+import heapq
 class MedianFinder:
 
     def __init__(self):
-        self.maxHeap =[]
-        self.minHeap =[]
+        #maxHeap,     minHeap
+        self.small, self.large = [], []
 
     def addNum(self, num: int) -> None:
-        def heapifyMax(size,i) -> None:
-            # will terminate when largest == i
-            largest = i
-            l = 2*i+1
-            r = 2*i+2
-            if(l < size and self.maxHeap[largest]<self.maxHeap[l]): # check valid left index and check if left is larger than curr node
-                largest = l
-            if(r < size and  self.maxHeap[largest]<self.maxHeap[r]):
-                largest = r
+        heapq.heappush(self.small,-1*num) # -1 because max heap implementation for python
 
-            if(largest != i):#swap needed
-                self.maxHeap[i], self.maxHeap[largest] = self.maxHeap[largest],self.maxHeap[i]
-                heapifyMax(size, largest)
+        if(self.small and self.large and self.small[0]*-1 > self.large[0]):
+            largestMaxHeapVal = -1*heapq.heappop(self.small) 
+            heapq.heappush(self.large,largestMaxHeapVal)
+        
+        #uneven size
+        if(len(self.small) - len(self.large)>=2):
+            largestMaxHeapVal = -1*heapq.heappop(self.small) 
+            heapq.heappush(self.large,largestMaxHeapVal)
 
-        def heapifyMin(size,i) -> None:
-            # will terminate when largest == i
-            smallest = i
-            l = 2*i+1
-            r = 2*i+2
-            if(l < size and self.minHeap[smallest] > self.minHeap[l]): # check valid left index and check if left is larger than curr node
-                smallest = l
-            if(r < size and  self.minHeap[smallest] > self.minHeap[r]):
-                smallest = r
-            if(smallest != i):#swap needed
-                self.minHeap[i], self.minHeap[smallest] = self.minHeap[smallest],self.minHeap[i]
-                heapifyMin(size, smallest)
+        if(len(self.large) - len(self.small)>=2):
+            smallestMinHeapVal = heapq.heappop(self.large) 
+            heapq.heappush(self.small,-1*smallestMinHeapVal)
 
+        
 
-        def insertMaxHeap(num):
-            self.maxHeap.append(num)
-            size = len(self.maxHeap)
-            for i in range((size//2)-1,-1,-1):
-                heapifyMax(size,i)
-        def insertMinHeap(num):
-            self.minHeap.append(num)
-            size = len(self.minHeap)
-            for i in range((size//2)-1,-1,-1):
-                heapifyMin(size,i)
-
-        insertMaxHeap(num)
-        if((len(self.maxHeap)>=1 and len(self.minHeap)>=1 and self.minHeap[0]<self.maxHeap[0])):
-            maxHeapVal = self.maxHeap.pop(0)
-            size = len(self.maxHeap)
-            for i in range((size//2)-1,-1,-1):
-                heapifyMax(size,i)
-            insertMinHeap(maxHeapVal)
-
-
-        if(abs(len(self.maxHeap) - len(self.minHeap))>=2):
-            if(len(self.minHeap)>len(self.maxHeap)):
-                minHeapVal = self.minHeap.pop(0)
-                size = len(self.minHeap)
-                for i in range((size//2)-1,-1,-1):
-                    heapifyMin(size,i)
-                # insertMaxHeap(minHeapVal)
-                self.maxHeap.insert(0,minHeapVal)
+    def findMedian(self) -> float:
+        size = len(self.small) + len(self.large)
+        # print('self.maxHeap => ',self.maxHeap,' self.minHeap => ',self.minHeap)
+        if(size % 2 ==0):
+            return (self.large[0]+(-1*self.small[0]))/2
+        else:
+            if(len(self.large)>len(self.small)):
+                return self.large[0]
             else:
-                maxHeapVal = self.maxHeap.pop(0)
-                size = len(self.maxHeap)
-                for i in range((size//2)-1,-1,-1):
-                    heapifyMax(size,i)
+                return -1*self.small[0]
+
+
+
+# SOLUTION TLE 17/21 , heap solution but not an optimized solution, to refer to solution
+# class MedianFinder:
+
+#     def __init__(self):
+#         self.maxHeap =[]
+#         self.minHeap =[]
+
+#     def addNum(self, num: int) -> None:
+#         def heapifyMax(size,i) -> None:
+#             # will terminate when largest == i
+#             largest = i
+#             l = 2*i+1
+#             r = 2*i+2
+#             if(l < size and self.maxHeap[largest]<self.maxHeap[l]): # check valid left index and check if left is larger than curr node
+#                 largest = l
+#             if(r < size and  self.maxHeap[largest]<self.maxHeap[r]):
+#                 largest = r
+
+#             if(largest != i):#swap needed
+#                 self.maxHeap[i], self.maxHeap[largest] = self.maxHeap[largest],self.maxHeap[i]
+#                 heapifyMax(size, largest)
+
+#         def heapifyMin(size,i) -> None:
+#             # will terminate when largest == i
+#             smallest = i
+#             l = 2*i+1
+#             r = 2*i+2
+#             if(l < size and self.minHeap[smallest] > self.minHeap[l]): # check valid left index and check if left is larger than curr node
+#                 smallest = l
+#             if(r < size and  self.minHeap[smallest] > self.minHeap[r]):
+#                 smallest = r
+#             if(smallest != i):#swap needed
+#                 self.minHeap[i], self.minHeap[smallest] = self.minHeap[smallest],self.minHeap[i]
+#                 heapifyMin(size, smallest)
+
+
+#         def insertMaxHeap(num):
+#             self.maxHeap.append(num)
+#             size = len(self.maxHeap)
+#             for i in range((size//2)-1,-1,-1):
+#                 heapifyMax(size,i)
+#         def insertMinHeap(num):
+#             self.minHeap.append(num)
+#             size = len(self.minHeap)
+#             for i in range((size//2)-1,-1,-1):
+#                 heapifyMin(size,i)
+
+#         insertMaxHeap(num)
+#         if((len(self.maxHeap)>=1 and len(self.minHeap)>=1 and self.minHeap[0]<self.maxHeap[0])):
+#             maxHeapVal = self.maxHeap.pop(0)
+#             size = len(self.maxHeap)
+#             for i in range((size//2)-1,-1,-1):
+#                 heapifyMax(size,i)
+#             insertMinHeap(maxHeapVal)
+
+
+#         if(abs(len(self.maxHeap) - len(self.minHeap))>=2):
+#             if(len(self.minHeap)>len(self.maxHeap)):
+#                 minHeapVal = self.minHeap.pop(0)
+#                 size = len(self.minHeap)
+#                 for i in range((size//2)-1,-1,-1):
+#                     heapifyMin(size,i)
+#                 # insertMaxHeap(minHeapVal)
+#                 self.maxHeap.insert(0,minHeapVal)
+#             else:
+#                 maxHeapVal = self.maxHeap.pop(0)
+#                 size = len(self.maxHeap)
+#                 for i in range((size//2)-1,-1,-1):
+#                     heapifyMax(size,i)
                 
-                # insertMinHeap(maxHeapVal)
-                self.minHeap.insert(0,maxHeapVal)
+#                 # insertMinHeap(maxHeapVal)
+#                 self.minHeap.insert(0,maxHeapVal)
           
 
 
