@@ -1,4 +1,3 @@
-#IN PROGRESSSSS, NOT COMPLETE
 
 class Solution:
     
@@ -8,21 +7,25 @@ class Solution:
         def dfsSearch(cand,tgt,tempResult):
             if(tgt<0):
                 return False
-            if(tgt==0):
-                output.append(tempResult)
-                return True
 
             cand = [cd for cd in cand if cd <= tgt]
        
-
             if(len(cand)==0 and tgt != 0):
                 return False
 
+            tempResult = sorted(tempResult)
+            if(tgt==0 and tempResult not in output):
+                
+                output.append(tempResult.copy())
+                return True
+
+           
+
             for x in cand:
                 tempResult.append(x)
-                result = dfsSearch(cand,tgt-x,tempResult)
-                if(not result):
-                    tempResult.pop()
+                result = dfsSearch(cand,tgt-x,tempResult) 
+                tempResult.pop()
+                
                 
 
         for cand in candidates:
@@ -30,8 +33,4 @@ class Solution:
             dfsSearch(candidates,target-cand,tempResult)
             
 
-        print(output)
-
-
-
-
+        return output
