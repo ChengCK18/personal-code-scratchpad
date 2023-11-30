@@ -1,5 +1,5 @@
 
-# VERY SLOW ALGO xD just by using brute force. NOT RECOMMENDED AT ALL
+# VERY SLOW ALGO xD just by using brute force. NOT RECOMMENDED AT ALL, just a curious rabbit hole
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
         # each number represents a unique subject
